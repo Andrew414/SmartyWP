@@ -15,7 +15,7 @@ namespace Smarty
 {
     public partial class MainPage : PhoneApplicationPage
     {
-        public IServer server = DummyServer.GetInstance();
+        public IServer server;
 
         public CommonHelper helper;
         public bool setupcomplete = false;
@@ -68,7 +68,7 @@ namespace Smarty
                 StartLoadOrSetupServerInfoTask();
             }
 
-            setupcomplete = true;
+            //setupcomplete = true;
         }
 
         private void TextBlock_Tap(object sender, System.Windows.Input.GestureEventArgs e)

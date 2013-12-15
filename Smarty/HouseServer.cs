@@ -7,11 +7,12 @@ namespace Smarty
 {
     public class HouseServer : IServer
     {
-        private HouseServer()
+        public HouseServer()
         {
 
         }
-        private static HouseServer instance = null;
+        
+        /*private static HouseServer instance = null;
 
         public static HouseServer GetInstance()
         {
@@ -20,7 +21,7 @@ namespace Smarty
                 instance = new HouseServer();
             }
             return instance;
-        }
+        }*/
 
         public void LoadData()
         {
@@ -32,7 +33,7 @@ namespace Smarty
 
         }
 
-        public bool IsServerKnown()
+        public bool IsServerValid()
         {
             return false;
         }

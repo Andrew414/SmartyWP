@@ -20,10 +20,21 @@ namespace Smarty
         public SetupPage()
         {
             InitializeComponent();
-            helper = CommonHelper.GetInstanse();
-            cbxCustomPort_Unchecked(null, null);
-
             DataContext = App.ViewModel;
+            
+            helper = CommonHelper.GetInstanse();
+            helper.setuppage = this;
+
+            PrepareUI();
+
+            
+        }
+
+        private void PrepareUI()
+        {
+            lblDemoDescription.Text = "Демо-режим позволяет вам понять возможности " + 
+                "приложения даже не имея настроенного smarty-сервера.";
+            cbxCustomPort_Unchecked(null, null);
         }
 
         private void cbxCustomPort_Unchecked(object sender, RoutedEventArgs e)
@@ -41,7 +52,41 @@ namespace Smarty
 
         private void btnConnect_Click(object sender, RoutedEventArgs e)
         {
-            //if 
+            helper.mainpage.server = new HouseServer();
+            Dictionary<string, string> parameters = new Dictionary<string,string>();
+            parameters.Add("ip", tbxIP.Text);
+            parameters.Add("port", tbxPort.Text);
+            helper.mainpage.server.SetupServer(parameters);
+
+            FinishSetup();
+        }
+
+        private void lbxSaved_Tap(object sender, System.Windows.Input.GestureEventArgs e)
+        {
+            
+        }
+
+        private void btnDemo_Tap(object sender, System.Windows.Input.GestureEventArgs e)
+        {
+            helper.mainpage.server = new DummyServer();
+            helper.mainpage.server.SetupServer(null);
+
+            FinishSetup();
+        }
+
+        private void FinishSetup()
+        {
+            if (helper.mainpage.server.IsServerValid())
+            {
+                helper.mainpage.setupcomplete = true;
+                NavigationService.GoBack();
+            }
+            else
+            {
+                MessageBox.Show("Сервер не отвечает или не настроен как smarty-сервер.\n" +
+                    "Нажмите \"OK\", чтобы настроить другой сервер, и попытайтесь еще раз.",
+                    "smarty", MessageBoxButton.OK);
+            }
         }
     }
 }

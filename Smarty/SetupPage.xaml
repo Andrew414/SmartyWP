@@ -43,9 +43,9 @@
             </controls:PivotItem>
 
             <!--Pivot item two-->
-            <controls:PivotItem Header="сохраненные">
+            <controls:PivotItem Header="известные">
                 <Grid>
-                    <ListBox x:Name="lbxSaved" ItemsSource="{Binding SavedServers}">
+                    <ListBox x:Name="lbxSaved" ItemsSource="{Binding SavedServers}" Tap="lbxSaved_Tap">
                         <ListBox.ItemTemplate>
                             <DataTemplate>
                                 <StackPanel Margin="0,0,0,17" Width="432" Height="78">
@@ -59,7 +59,10 @@
             </controls:PivotItem>
 
             <controls:PivotItem Header="демо">
-                <Grid/>
+                <StackPanel>
+                    <TextBlock x:Name="lblDemoDescription" Text="Демо-режим позволяет вам понять возможности приложения даже не имея настроенного smarty-сервера." TextWrapping="Wrap" Style="{StaticResource PhoneTextNormalStyle}"/>
+                    <Button Margin="0,20,0,0" x:Name="btnDemo" Content="войти в демо-режим" Tap="btnDemo_Tap"/>
+                </StackPanel>
             </controls:PivotItem>
         </controls:Pivot>
     </Grid>

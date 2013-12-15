@@ -76,7 +76,7 @@
     <Compile Include="Connector.cs" />
     <Compile Include="DummyServer.cs" />
     <Compile Include="HouseServer.cs" />
-    <Compile Include="InternetHelper.cs" />
+    <Compile Include="IInternetHelper.cs" />
     <Compile Include="IServer.cs" />
     <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>

@@ -9,6 +9,6 @@ namespace Smarty
     {
         void LoadData();
         void SetupServer(Dictionary<String, String> parameters);
-        bool IsServerKnown();
+        bool IsServerValid();
     }
 }

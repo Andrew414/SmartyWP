@@ -7,10 +7,11 @@ namespace Smarty
 {
     class DummyServer : IServer
     {
-        private DummyServer()
+        public DummyServer()
         {
 
         }
+        /*
         private static DummyServer instance = null;
 
         public static DummyServer GetInstance()
@@ -20,7 +21,7 @@ namespace Smarty
                 instance = new DummyServer();
             }
             return instance;
-        }
+        }*/
 
         public void LoadData()
         {
@@ -32,7 +33,7 @@ namespace Smarty
 
         }
 
-        public bool IsServerKnown()
+        public bool IsServerValid()
         {
             return System.Windows.MessageBoxResult.Cancel == System.Windows.MessageBox.Show(
                 "Do you want to set up the server manually?", 
