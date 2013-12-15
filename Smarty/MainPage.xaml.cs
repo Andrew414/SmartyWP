@@ -75,5 +75,19 @@ namespace Smarty
         {
             NavigationService.Navigate(new Uri("/BasicSetup.xaml", UriKind.RelativeOrAbsolute));
         }
+
+        private void Image_Tap(object sender, System.Windows.Input.GestureEventArgs e)
+        {
+            try
+            {
+                pbxMap.Source = new System.Windows.Media.Imaging.BitmapImage(new Uri("http://cs316817.vk.me/v316817290/9065/lzoXEeMnBjA.jpg"));
+                
+                MessageBox.Show(e.GetPosition(sender as UIElement).X.ToString() + ", " + e.GetPosition(sender as UIElement).Y.ToString());
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
     }
 }

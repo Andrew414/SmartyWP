@@ -7,6 +7,8 @@ namespace Smarty
 {
     class DummyServer : IServer
     {
+        static string MANIFEST = "{ \"name\" : \"Stas test server\", \"version\" : \"0.9b\" }";
+
         public DummyServer()
         {
 
@@ -35,11 +37,13 @@ namespace Smarty
 
         public bool IsServerValid()
         {
+            return true;
+            /*
             return System.Windows.MessageBoxResult.Cancel == System.Windows.MessageBox.Show(
                 "Do you want to set up the server manually?", 
                 "Question", 
                 System.Windows.MessageBoxButton.OKCancel
-            );
+            );*/
         }
     }
 }

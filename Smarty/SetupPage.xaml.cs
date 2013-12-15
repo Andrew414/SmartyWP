@@ -27,7 +27,15 @@ namespace Smarty
 
             PrepareUI();
 
-            
+             
+        }
+
+        protected override void OnNavigatedFrom(System.Windows.Navigation.NavigationEventArgs e)
+        {
+            if (!helper.mainpage.setupcomplete)
+            {
+                helper.ExitApp();
+            }
         }
 
         private void PrepareUI()

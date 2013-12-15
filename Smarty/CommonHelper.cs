@@ -18,5 +18,10 @@ namespace Smarty
             if (inst == null) inst = new CommonHelper();
             return inst;
         }
+
+        public void ExitApp()
+        {
+            throw new Exception("killing the app");
+        }
     }
 }

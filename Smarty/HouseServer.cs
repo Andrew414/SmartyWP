@@ -30,7 +30,7 @@ namespace Smarty
 
         public void SetupServer(Dictionary<String, String> parameters)
         {
-
+            
         }
 
         public bool IsServerValid()
