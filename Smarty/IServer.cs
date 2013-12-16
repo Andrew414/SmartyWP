@@ -10,5 +10,7 @@ namespace Smarty
         bool LoadData();
         void SetupServer(Dictionary<String, String> parameters);
         bool IsServerValid();
+        string GetState(string id);
+        string SetState(string id, string state);
     }
 }

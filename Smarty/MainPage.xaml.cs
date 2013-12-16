@@ -20,6 +20,16 @@ namespace Smarty
         public string name;
     }
 
+    public class Constants
+    {
+        public static string THERM = "thermometer";
+        public static string LIGHT = "light";
+
+        public static Color OFF_COLOR = Colors.Red;
+        public static Color ON_COLOR = Colors.Green;
+        public static Color ONE_STATE = Colors.Blue;
+    }
+
     public partial class MainPage : PhoneApplicationPage
     {
         public IServer server;
@@ -31,6 +41,9 @@ namespace Smarty
 
         public Button[] mapbuttons;
         public MapButtonInfo[] mapbuttoninfos;
+
+        public int activeItem = -1;
+        public int mapItem = -1;
         
 
         // Constructor
@@ -130,31 +143,36 @@ namespace Smarty
                 rctMapLineh.Visibility = System.Windows.Visibility.Collapsed;
                 rctMapLineih.Visibility = System.Windows.Visibility.Collapsed;
 
+                lblMapDesk.Visibility = System.Windows.Visibility.Collapsed;
+
             }
 
-            //setupcomplete = true;
+            RefreshMap();
         }
 
-        private void MapButtons_Tap(object Sender, RoutedEventArgs Args)
+        private void RouletteChange(int dev)
         {
-            int sender = -1;
-
-            for (int i = 0; i < mapbuttons.Length; i++)
+            if (helper.model.Devices[dev].Type == Constants.THERM)
             {
-                if (Sender == mapbuttons[i])
-                {
-                    sender = i;
-                    break;
-                }
+                return;
             }
 
+            if (helper.model.Devices[dev].Type == Constants.LIGHT)
+            {
+                helper.mainpage.server.SetState(dev.ToString(), helper.model.Devices[dev].State == "1" ? "0" : "1");
+                helper.model.LoadData();
+            }
+        }
+
+        private void ConfigureButtons(int sender)
+        {
             rctMapLine.Visibility = System.Windows.Visibility.Visible;
             rctMapLinei.Visibility = System.Windows.Visibility.Visible;
             //rctMapLineh.Visibility = System.Windows.Visibility.Visible;
             rctMapLineih.Visibility = System.Windows.Visibility.Visible;
 
-            double i1 = (int)(mapbuttoninfos[sender].X + (Sender as Button).Width / 2) - 1;
-            double i2 = (int)(mapbuttoninfos[sender].Y + (Sender as Button).Height / 2);
+            double i1 = (int)(mapbuttoninfos[sender].X + mapbuttons[sender].Width / 2) - 1;
+            double i2 = (int)(mapbuttoninfos[sender].Y + mapbuttons[sender].Height / 2);
             double i3 = 364 - mapbuttoninfos[sender].Y;
             rctMapLine.SetValue(Canvas.LeftProperty, i1);
             rctMapLine.SetValue(Canvas.TopProperty, i2);
@@ -167,12 +185,63 @@ namespace Smarty
             rctMapLineh.Width = i4;
             rctMapLineih.Width = i4;
 
-            lblMapDesk.Text = (mapbuttoninfos[sender].name);
+            lblMapDesk.Text = (mapbuttoninfos[sender].name) + ", ";
+            if (helper.model.Devices[sender].Type == Constants.LIGHT)
+            {
+                lblMapDesk.Text += helper.model.Devices[sender].LineMore.ToLower();
+                //(helper.model.Devices[sender].State == "1") ? "включена" : "выключена";
+
+                mapbuttons[sender].Background = new SolidColorBrush(
+                    helper.model.Devices[sender].State == "1" ? Constants.ON_COLOR : Constants.OFF_COLOR
+                    );
+            }
+            if (helper.model.Devices[sender].Type == Constants.THERM)
+            {
+                lblMapDesk.Text += helper.model.Devices[sender].LineMore;
+                //helper.model.Devices[sender].State + " " ;
+                mapbuttons[sender].Background = new SolidColorBrush(Constants.ONE_STATE);
+            }
+            lblMapDesk.Visibility = System.Windows.Visibility.Visible;
+        }
+
+
+        private void MapButtons_Tap(object Sender, RoutedEventArgs Args)
+        {
+            int sender = -1;
+
+            foreach (var i in mapbuttons)
+            {
+                i.Background = new SolidColorBrush(Colors.Black);
+            }
+
+            bool rouletteChange = false;
+
+            for (int i = 0; i < mapbuttons.Length; i++)
+            {
+                if (Sender == mapbuttons[i])
+                {
+                    if (i == mapItem)
+                    {
+                        rouletteChange = true;
+                    }
+
+                    sender = i;
+                    mapItem = i;
+                    break;
+                }
+            }
+
+            if (rouletteChange)
+            {
+                RouletteChange(sender);
+            }
+
+            ConfigureButtons(sender);
         }
 
         private void TextBlock_Tap(object sender, System.Windows.Input.GestureEventArgs e)
         {
-            NavigationService.Navigate(new Uri("/BasicSetup.xaml", UriKind.RelativeOrAbsolute));
+            //this.activeItem = e
         }
 
         private void Image_Tap(object sender, System.Windows.Input.GestureEventArgs e)
@@ -187,6 +256,39 @@ namespace Smarty
             //    MessageBox.Show(ex.Message);
             //}
              
+        }
+
+        public void RefreshMap()
+        {
+            if (mapItem != -1)
+            {
+                MapButtons_Tap(mapbuttons[mapItem], null);
+            }
+        }
+
+        private void ApplicationBarIconButton_Click(object sender, EventArgs e)
+        {
+            helper.model.LoadData();
+
+           // MessageBox.Show(activeItem.ToString());
+
+            RefreshMap();
+        }
+
+        private void ListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (e.AddedItems.Count < 1)
+            {
+                return;
+            }
+
+            this.activeItem = int.Parse((e.AddedItems[0] as DeviceItem).ID);
+            NavigationService.Navigate(new Uri("/BasicInfo.xaml", UriKind.RelativeOrAbsolute));
+        }
+
+        private void lblMapDesk_Tap(object sender, System.Windows.Input.GestureEventArgs e)
+        {
+
         }
     }
 }

@@ -1,0 +1,41 @@
+﻿<phone:PhoneApplicationPage
+    x:Class="Smarty.BasicSetup"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:phone="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone"
+    xmlns:toolkit="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls.Toolkit"
+    xmlns:shell="clr-namespace:Microsoft.Phone.Shell;assembly=Microsoft.Phone"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    FontFamily="{StaticResource PhoneFontFamilyNormal}"
+    FontSize="{StaticResource PhoneFontSizeNormal}"
+    Foreground="{StaticResource PhoneForegroundBrush}"
+    SupportedOrientations="Portrait" Orientation="Portrait"
+    mc:Ignorable="d"
+    shell:SystemTray.IsVisible="True">
+
+    <Grid x:Name="LayoutRoot" Background="Transparent">
+        <!--Pivot Control-->
+        <TextBlock x:Name="lblAppName" Margin="25,0,0,0" Width="200" VerticalAlignment="Top" Height="50" HorizontalAlignment="Left" Style="{StaticResource PhoneTextTitle2Style}" Text="smarty"/>
+        <!--LayoutRoot is the root grid where all page content is placed-->
+        <Canvas HorizontalAlignment="Center" Margin="0,65,0,0" x:Name="cnvMap">
+            <Image Margin="-200,0,0,0" x:Name="pbxMap" Width="400" Height="400" Source="/demomap.png">
+            </Image>
+            <Rectangle x:Name="rct" Width="24" Height="24" Fill="White" Tap="rct_Tap"/>
+            <Rectangle x:Name="rctLil" Width="20" Height="20" Fill="Black" Tap="rct_Tap"/>
+        </Canvas>
+        <StackPanel HorizontalAlignment="Left" Margin="25,50">
+            <TextBlock Margin="15, 450,0,0" x:Name="lblDeviceName" Style="{StaticResource PhoneTextTitle2Style}">описание устройства</TextBlock>
+            <TextBlock Margin="15, 0,0,0" x:Name="lblDeviceDesk" Style="{StaticResource PhoneTextBlockBase}">описание устройства</TextBlock>
+            
+            <Button x:Name="btnChange" Click="btnChange_Click">изменить состояние</Button>
+        </StackPanel>
+    </Grid>
+
+    <phone:PhoneApplicationPage.ApplicationBar>
+        <shell:ApplicationBar IsVisible="True" IsMenuEnabled="True" Opacity="0.8">
+            <shell:ApplicationBarIconButton IconUri="/appbar.refresh.rest.png" Click="ApplicationBarIconButton_Click"  Text="обновить"/>
+        </shell:ApplicationBar>
+    </phone:PhoneApplicationPage.ApplicationBar>
+
+</phone:PhoneApplicationPage>

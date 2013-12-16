@@ -72,8 +72,8 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
-    <Compile Include="BasicSetup.xaml.cs">
-      <DependentUpon>BasicSetup.xaml</DependentUpon>
+    <Compile Include="BasicInfo.xaml.cs">
+      <DependentUpon>BasicInfo.xaml</DependentUpon>
     </Compile>
     <Compile Include="CommonHelper.cs" />
     <Compile Include="Connector.cs" />
@@ -99,7 +99,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </ApplicationDefinition>
-    <Page Include="BasicSetup.xaml">
+    <Page Include="BasicInfo.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -122,6 +122,10 @@
     <None Include="Properties\WMAppManifest.xml" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="appbar.favs.rest.png" />
+    <Content Include="appbar.feature.settings.rest.png" />
+    <Content Include="appbar.questionmark.rest.png" />
+    <Content Include="appbar.refresh.rest.png" />
     <Content Include="ApplicationIcon.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

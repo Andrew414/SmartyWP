@@ -37,5 +37,15 @@ namespace Smarty
         {
             return false;
         }
+
+        public string GetState(string id)
+        {
+            return "";
+        }
+
+        public string SetState(string id, string state)
+        {
+            return "";
+        }
     }
 }

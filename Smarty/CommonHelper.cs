@@ -10,6 +10,7 @@ namespace Smarty
         public MainPage mainpage = null;
         public SetupPage setuppage = null;
         public MainViewModel model = null;
+        public BasicSetup info = null;
 
         static CommonHelper inst = null;
 

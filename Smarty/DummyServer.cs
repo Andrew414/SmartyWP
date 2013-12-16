@@ -80,8 +80,8 @@ namespace Smarty
 
                     if (state["result"].ToString() == "1")
                     {
-                        item.State = state[(item.Type == "light") ? "state" : "temperature"].ToString();
-                        item.LineMore = (item.Type == "light") ? (item.State == "1" ? "Включена" : "Выключена") : (item.State + " °C");
+                        item.State = state[(item.Type == Constants.LIGHT) ? "state" : "temperature"].ToString();
+                        item.LineMore = (item.Type == Constants.LIGHT) ? (item.State == "1" ? "Включена" : "Выключена") : (item.State + " °C");
                     } 
                     else
                     {
@@ -114,6 +114,16 @@ namespace Smarty
         public void SetupServer(Dictionary<String, String> parameters)
         {
 
+        }
+
+        public string GetState(string id)
+        {
+            return inter.DownloadFile(Connector.GETSTATE + "/" + id);
+        }
+
+        public string SetState(string id, string state)
+        {
+            return inter.DownloadFile(Connector.SETSTATE + "/" + id + "/" + state);
         }
 
         public bool IsServerValid()
