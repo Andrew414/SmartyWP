@@ -5,8 +5,14 @@ using System.Text;
 
 namespace Smarty
 {
-    class Connector
+    public class Connector
     {
+        public static string DEVICEINFO = "/devices";
+        public static string HOUSEINFO = "/houseinfo";
+        public static string GETMAP = "/getmap";
+        public static string GETSTATE = "/getstate";
+        public static string SETSTATE = "/setstate";
+        
         public bool Connect(string address)
         {
             return false;

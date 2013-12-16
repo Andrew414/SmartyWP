@@ -16,19 +16,38 @@ using System.Collections.ObjectModel;
 
 namespace Smarty
 {
+    public class Coords
+    {
+        public int Floor;
+        public int X;
+        public int Y;
+    }
+
+
     public class MainViewModel : INotifyPropertyChanged
     {
+        CommonHelper helper;
+
         public MainViewModel()
         {
             this.MainItems = new ObservableCollection<ItemViewModel>();
-            this.SavedServers = new ObservableCollection<SavedServersItem>();
+            this.SavedServers = new ObservableCollection<SavedServesItem>();
+            this.Devices = new ObservableCollection<DeviceItem>();
+
+            DevCoords = new Dictionary<string, Coords>();
+
+            helper = CommonHelper.GetInstanse();
+            helper.model = this;
         }
 
         /// <summary>
         /// A collection for ItemViewModel objects.
         /// </summary>
         public ObservableCollection<ItemViewModel> MainItems { get; private set; }
-        public ObservableCollection<SavedServersItem> SavedServers { get; private set; }
+        public ObservableCollection<SavedServesItem> SavedServers { get; private set; }
+        public ObservableCollection<DeviceItem> Devices { get; private set; }
+        public string housemap;
+        public Dictionary<string, Coords> DevCoords;
 
         private string _sampleProperty = "Sample Runtime Property Value";
         /// <summary>
@@ -63,11 +82,10 @@ namespace Smarty
         public void LoadData()
         {
             // Sample data; replace with real data
-            this.MainItems.Add(new ItemViewModel() { LineOne = "runtime one", LineTwo = "Maecenas praesent accumsan bibendum", LineThree = "Facilisi faucibus habitant inceptos interdum lobortis nascetur pharetra placerat pulvinar sagittis senectus sociosqu" });
-            this.MainItems.Add(new ItemViewModel() { LineOne = "runtime two", LineTwo = "Dictumst eleifend facilisi faucibus", LineThree = "Suscipit torquent ultrices vehicula volutpat maecenas praesent accumsan bibendum dictumst eleifend facilisi faucibus" });
-            
-            this.SavedServers.Add(new SavedServersItem() { LineMain = "Home", LineMore = "192.168.0.103"});
-            this.SavedServers.Add(new SavedServersItem() { LineMain = "Stan house", LineMore = "192.168.1.27"});
+            this.SavedServers.Add(new SavedServesItem() { LineMain = "Home", LineMore = "192.168.0.103" });
+            this.SavedServers.Add(new SavedServesItem() { LineMain = "Stan house", LineMore = "192.168.1.27" });
+
+            this.helper.mainpage.server.LoadData();
 
             this.IsDataLoaded = true;
         }

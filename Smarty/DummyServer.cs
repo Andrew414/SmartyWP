@@ -3,15 +3,22 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
+using System.Windows;
+
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+
 namespace Smarty
 {
     class DummyServer : IServer
     {
-        static string MANIFEST = "{ \"name\" : \"Stas test server\", \"version\" : \"0.9b\" }";
+        CommonHelper helper;
+        DummyInternetHelper inter;
 
         public DummyServer()
         {
-
+            helper = CommonHelper.GetInstanse();
+            inter = new DummyInternetHelper();
         }
         /*
         private static DummyServer instance = null;
@@ -25,9 +32,66 @@ namespace Smarty
             return instance;
         }*/
 
-        public void LoadData()
+        public bool LoadData()
         {
+            try
+            {
+                helper.model.Devices.Clear();
 
+                helper.model.DevCoords.Clear();
+
+                string smap = inter.DownloadFile(Connector.GETMAP);
+                JObject map = JObject.Parse(smap);
+                helper.model.housemap = map["floors"].First.First.ToString();
+
+                Dictionary<string, DeviceItem> devices = new Dictionary<string, DeviceItem>();
+
+                foreach (var i in map["devices"])
+                {
+                    //string str = i..ElementAt(0).ToString();
+                    //dirty hack
+
+                    string str = i.ToString().Replace("\n", "").Replace("\r", "").Replace(" ", "")
+                        .Replace("\t", "").Replace("\"", "").Split(new char[] { ':' }).First();
+
+                    devices.Add(str,new DeviceItem() { Floor = "1" });
+                    string scoords = i.First.ToString();
+                    int[] coords = scoords.Split(new char[] {','}).Select(x => int.Parse(x)).ToArray();
+                    helper.model.DevCoords.Add(str, new Coords() { Floor=coords[0], X = coords[1], Y=coords[2] });
+                }
+
+                string devs = inter.DownloadFile(Connector.DEVICEINFO);
+
+                JObject devmap = JObject.Parse(devs);
+
+                foreach (var i in devmap)
+                {
+                    DeviceItem item = devices[i.Key];
+                    item.ID = i.Key;
+                    item.Name = i.Value["name"].ToString();
+                    item.Type = i.Value["type"].ToString();
+
+                    item.LineMain = i.Value["name"].ToString();
+                    item.LineMore = "ololo trololo";
+
+                    devices[i.Key] = item;
+                }
+
+                foreach (var i in devices)
+                {
+                    helper.model.Devices.Add(i.Value);
+                }
+
+                helper.mainpage.demomode = true;
+
+                return true;
+
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show(e.Message);
+                return false;
+            }
         }
 
         public void SetupServer(Dictionary<String, String> parameters)
@@ -37,7 +101,18 @@ namespace Smarty
 
         public bool IsServerValid()
         {
-            return true;
+            try
+            {
+                string checkserver = inter.DownloadFile(Connector.HOUSEINFO);
+
+                JObject json = JObject.Parse(checkserver);
+
+                return json["smartyname"] != null;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
             /*
             return System.Windows.MessageBoxResult.Cancel == System.Windows.MessageBox.Show(
                 "Do you want to set up the server manually?", 

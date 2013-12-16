@@ -7,6 +7,8 @@ namespace Smarty
 {
     interface IInternetHelper
     {
+           
+
         string DownloadFile(string url);
     }
 }

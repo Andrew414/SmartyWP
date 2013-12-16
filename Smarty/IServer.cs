@@ -7,7 +7,7 @@ namespace Smarty
 {
     public interface IServer
     {
-        void LoadData();
+        bool LoadData();
         void SetupServer(Dictionary<String, String> parameters);
         bool IsServerValid();
     }

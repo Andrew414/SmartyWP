@@ -23,9 +23,9 @@ namespace Smarty
             return instance;
         }*/
 
-        public void LoadData()
+        public bool LoadData()
         {
-
+            return true;
         }
 
         public void SetupServer(Dictionary<String, String> parameters)

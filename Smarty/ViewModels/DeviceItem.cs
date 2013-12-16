@@ -13,46 +13,46 @@ using System.Windows.Shapes;
 
 namespace Smarty
 {
-    public class SavedServesItem : INotifyPropertyChanged
+    public class DeviceItem : INotifyPropertyChanged
     {
-        private string _ip;
+        private string _type;
         /// <summary>
         /// Sample ViewModel property; this property is used in the view to display its value using a Binding.
         /// </summary>
         /// <returns></returns>
-        public string IP
+        public string Type
         {
             get
             {
-                return _ip;
+                return _type;
             }
             set
             {
-                if (value != _ip)
+                if (value != _type)
                 {
-                    _ip = value;
-                    NotifyPropertyChanged("IP");
+                    _type = value;
+                    NotifyPropertyChanged("Type");
                 }
             }
         }
 
-        private string _port;
+        private string _name;
         /// <summary>
         /// Sample ViewModel property; this property is used in the view to display its value using a Binding.
         /// </summary>
         /// <returns></returns>
-        public string Port
+        public string Name
         {
             get
             {
-                return _port;
+                return _name;
             }
             set
             {
-                if (value != _port)
+                if (value != _name)
                 {
-                    _port = value;
-                    NotifyPropertyChanged("Port");
+                    _name = value;
+                    NotifyPropertyChanged("Name");
                 }
             }
         }
@@ -99,23 +99,65 @@ namespace Smarty
             }
         }
 
-        private string _desc;
+        private string _floor;
         /// <summary>
         /// Sample ViewModel property; this property is used in the view to display its value using a Binding.
         /// </summary>
         /// <returns></returns>
-        public string Description
+        public string Floor
         {
             get
             {
-                return _desc;
+                return _floor;
             }
             set
             {
-                if (value != _desc)
+                if (value != _floor)
                 {
-                    _desc = value;
-                    NotifyPropertyChanged("Desription");
+                    _floor = value;
+                    NotifyPropertyChanged("Floor");
+                }
+            }
+        }
+
+        private string _id;
+        /// <summary>
+        /// Sample ViewModel property; this property is used in the view to display its value using a Binding.
+        /// </summary>
+        /// <returns></returns>
+        public string ID
+        {
+            get
+            {
+                return _id;
+            }
+            set
+            {
+                if (value != _id)
+                {
+                    _id = value;
+                    NotifyPropertyChanged("ID");
+                }
+            }
+        }
+
+        private string _state;
+        /// <summary>
+        /// Sample ViewModel property; this property is used in the view to display its value using a Binding.
+        /// </summary>
+        /// <returns></returns>
+        public string State
+        {
+            get
+            {
+                return _state;
+            }
+            set
+            {
+                if (value != _state)
+                {
+                    _state = value;
+                    NotifyPropertyChanged("State");
                 }
             }
         }

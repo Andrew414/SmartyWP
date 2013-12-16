@@ -16,7 +16,7 @@
     shell:SystemTray.IsVisible="False">
 
     <!--LayoutRoot is the root grid where all page content is placed-->
-    <Grid x:Name="LayoutRoot" Background="Transparent">
+    <Grid Margin="0,-15,0,0" x:Name="LayoutRoot" Background="Transparent">
 
         <!--Panorama control-->
         <controls:Panorama Title="smarty">
@@ -25,14 +25,14 @@
             </controls:Panorama.Background>
 
             <!--Panorama item one-->
-            <controls:PanoramaItem Header="first item">
+            <controls:PanoramaItem x:Name="pnrSen" Header="сенсоры">
                 <!--Double line list with text wrapping-->
-                <ListBox Margin="0,0,-12,0" ItemsSource="{Binding MainItems}">
+                <ListBox Margin="0,0,-12,0" ItemsSource="{Binding Devices}">
                     <ListBox.ItemTemplate>
                         <DataTemplate>
                             <StackPanel Margin="0,0,0,17" Width="432" Height="78">
-                                <TextBlock Text="{Binding LineOne}" TextWrapping="Wrap" Style="{StaticResource PhoneTextExtraLargeStyle}" Tap="TextBlock_Tap"/>
-                                <TextBlock Text="{Binding LineTwo}" TextWrapping="Wrap" Margin="12,-6,12,0" Style="{StaticResource PhoneTextSubtleStyle}"/>
+                                <TextBlock Text="{Binding LineMain}" TextWrapping="Wrap" Style="{StaticResource PhoneTextExtraLargeStyle}" Tap="TextBlock_Tap"/>
+                                <TextBlock Text="{Binding LineMore}" TextWrapping="Wrap" Margin="12,-6,12,0" Style="{StaticResource PhoneTextSubtleStyle}"/>
                             </StackPanel>
                         </DataTemplate>
                     </ListBox.ItemTemplate>
@@ -41,13 +41,26 @@
 
             <!--Panorama item two-->
             <!--Use 'Orientation="Horizontal"' to enable a panel that lays out horizontally-->
-            <controls:PanoramaItem x:Name="pnrMap" Header="second item">
+            <controls:PanoramaItem x:Name="pnrMap" Header="карта">
                 <!--Double line list with image placeholder and text wrapping-->
-                <Image x:Name="pbxMap" Width="400" Height="400" Source="/background.png" Tap="Image_Tap">
-                    
-                </Image>
+                <Canvas x:Name="cnvMap">
+                    <Image Margin="0,-20,0,0" x:Name="pbxMap" Width="400" Height="400" Source="/demomap.png" Tap="Image_Tap">
+                        
+                    </Image>
+                    <TextBlock Margin="15,-35,0,0" x:Name="lblMapDesk" Canvas.Left="-8" Canvas.Top="430" Style="{StaticResource PhoneTextTitle2Style}">описание устройства</TextBlock>
+                    <Rectangle x:Name="rctMapLine" Canvas.Left="200" Canvas.Top="100" Height="300" Width="3" Fill="DarkBlue"></Rectangle>
+                    <Rectangle x:Name="rctMapLinei" Canvas.Left="201" Canvas.Top="100" Height="300" Width="1" Fill="White"></Rectangle>
+                    <Rectangle x:Name="rctMapLineh" Canvas.Left="10" Canvas.Top="395" Height="3" Width="300" Fill="DarkBlue"></Rectangle>
+                    <Rectangle x:Name="rctMapLineih" Canvas.Left="10" Canvas.Top="396" Height="1" Width="300" Fill="White"></Rectangle>
+                </Canvas>
             </controls:PanoramaItem>
         </controls:Panorama>
     </Grid>
-    
+
+    <phone:PhoneApplicationPage.ApplicationBar>
+        <shell:ApplicationBar IsVisible="True" IsMenuEnabled="True" Opacity="0.8">
+            <shell:ApplicationBarIconButton IconUri="/icons/appbar.refresh.rest.png" Text="restart"/>
+        </shell:ApplicationBar>
+    </phone:PhoneApplicationPage.ApplicationBar>
+
 </phone:PhoneApplicationPage>
