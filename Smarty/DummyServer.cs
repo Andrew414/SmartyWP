@@ -71,8 +71,25 @@ namespace Smarty
                     item.Name = i.Value["name"].ToString();
                     item.Type = i.Value["type"].ToString();
 
+                    item.Floor = helper.model.DevCoords[item.ID].Floor.ToString();
+
                     item.LineMain = i.Value["name"].ToString();
-                    item.LineMore = "ololo trololo";
+
+                    string devstate = inter.DownloadFile(Connector.GETSTATE + "/" + item.ID);
+                    JObject state = JObject.Parse(devstate);
+
+                    if (state["result"].ToString() == "1")
+                    {
+                        item.State = state[(item.Type == "light") ? "state" : "temperature"].ToString();
+                        item.LineMore = (item.Type == "light") ? (item.State == "1" ? "Включена" : "Выключена") : (item.State + " °C");
+                    } 
+                    else
+                    {
+                        item.State = "error";
+                        item.LineMore = "Невозможно загрузить данные";
+                    }
+
+                    
 
                     devices[i.Key] = item;
                 }
